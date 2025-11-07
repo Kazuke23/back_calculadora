@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+const uri ="mongodb+srv://Anderson:aFadrSewHJioZ@cluster0.ulqna.mongodb.net/Micalculadora?retryWrites=true&w=majority&appName=Cluster0"
 
 export async function connectMongo(uri?: string) {
   if (!uri) throw new Error("MONGODB_URI no está definido");
@@ -7,7 +8,7 @@ export async function connectMongo(uri?: string) {
   mongoose.set("strictQuery", true);
   mongoose.set('debug', true);
 
-  await mongoose.connect("mongodb+srv://Anderson:aFadrSewHJioZ@cluster0.ulqna.mongodb.net/Micalculadora?retryWrites=true&w=majority&appName=Cluster0", {
+  await mongoose.connect(uri, {
   serverSelectionTimeoutMS: 5000,  // evita que se quede pegado
 });
 
