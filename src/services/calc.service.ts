@@ -180,7 +180,7 @@ function divDec(a: number, b: number, precision: number): number {
   const q = divBitwise(num, den); // cociente entero ya escalado a 'precision'
   const neg = q < 0;
 
-  // El resultado final tiene 'precision' decimales
+  // El resultado final tiene 'precision' decimales6
   const R: Dec = { m: Math.abs(q), s: precision, neg };
   return decToNumber(R);
 }
