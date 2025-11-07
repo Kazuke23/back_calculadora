@@ -7,7 +7,7 @@ export async function connectMongo(uri?: string) {
   mongoose.set("strictQuery", true);
   mongoose.set('debug', true);
 
-  await mongoose.connect(uri, {
+  await mongoose.connect("mongodb+srv://Anderson:aFadrSewHJioZ@cluster0.ulqna.mongodb.net/Micalculadora?retryWrites=true&w=majority&appName=Cluster0", {
   serverSelectionTimeoutMS: 5000,  // evita que se quede pegado
 });
 
