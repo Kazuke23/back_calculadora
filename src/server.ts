@@ -11,6 +11,7 @@ const MONGO_URI = process.env.MONGODB_URI;
   try {
     console.log("[bootstrap] Levantando API…");
     await connectMongo();                // 👈 Asegura que se ejecuta
+    console.log('Conexión exitosa a MongoDB!');
     app.listen(PORT, () => {
       console.log(`[api] http://localhost:${PORT}`);
     });
