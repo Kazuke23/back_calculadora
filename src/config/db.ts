@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
-const uri ="mongodb+srv://Anderson:aFadrSewHJioZ@cluster0.ulqna.mongodb.net/Micalculadora?retryWrites=true&w=majority&appName=Cluster0"
 
-export async function connectMongo(uri?: string) {
+export async function connectMongo() {
+  const uri ="mongodb+srv://Anderson:aFadrSewHJioZ@cluster0.ulqna.mongodb.net/Micalculadora?retryWrites=true&w=majority&appName=Cluster0"
   if (!uri) throw new Error("MONGODB_URI no está definido");
 
   console.log("[mongo] Intentando conectar a:", uri);

@@ -10,7 +10,7 @@ const MONGO_URI = process.env.MONGODB_URI;
 (async () => {
   try {
     console.log("[bootstrap] Levantando API…");
-    await connectMongo(MONGO_URI);                // 👈 Asegura que se ejecuta
+    await connectMongo();                // 👈 Asegura que se ejecuta
     app.listen(PORT, () => {
       console.log(`[api] http://localhost:${PORT}`);
     });
