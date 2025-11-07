@@ -1,38 +1,47 @@
 import { Request, Response, NextFunction } from "express";
 
-const allowedOps = new Set(["add","sub","mul","div","pow","sqrt","percent","fact"]);
+// Solo 4 operaciones básicas
+const allowedOps = new Set(["add", "sub", "mul", "div"]);
+
+function isFiniteNumber(x: unknown): x is number {
+  return typeof x === "number" && Number.isFinite(x);
+}
 
 export function validateCalcBody(req: Request, res: Response, next: NextFunction) {
-  const { op, a, b } = req.body || {};
+  const { op } = req.body || {};
+  const a = Number(req.body?.a);
+  const b = Number(req.body?.b);
+
   if (!allowedOps.has(op)) {
-    return res.status(400).json({ ok: false, error: "Operación inválida" });
+    return res.status(400).json({ ok: false, error: "Operación inválida. Use: add, sub, mul, div" });
+  }
+  if (!isFiniteNumber(a)) {
+    return res.status(400).json({ ok: false, error: "'a' debe ser un número finito" });
+  }
+  if (!isFiniteNumber(b)) {
+    return res.status(400).json({ ok: false, error: "'b' debe ser un número finito" });
   }
 
-  const isUnary = op === "sqrt" || op === "fact";
-  if (typeof a !== "number" || !Number.isFinite(a)) {
-    return res.status(400).json({ ok: false, error: "'a' debe ser número" });
-  }
-  if (!isUnary && (typeof b !== "number" || !Number.isFinite(b))) {
-    return res.status(400).json({ ok: false, error: "'b' debe ser número" });
-  }
+  // Normalizamos a números
+  (req as any).calc = { op, a, b };
   next();
 }
 
 export function validateCalcQueryAndParams(req: Request, res: Response, next: NextFunction) {
   const op = req.params.op;
-  if (!allowedOps.has(op)) {
-    return res.status(400).json({ ok: false, error: "Operación inválida" });
-  }
-
-  const isUnary = op === "sqrt" || op === "fact";
   const a = Number(req.query.a);
-  const b = req.query.b !== undefined ? Number(req.query.b) : undefined;
+  const b = Number(req.query.b);
 
+  if (!allowedOps.has(op)) {
+    return res.status(400).json({ ok: false, error: "Operación inválida. Use: add, sub, mul, div" });
+  }
   if (!Number.isFinite(a)) {
-    return res.status(400).json({ ok: false, error: "'a' debe ser número" });
+    return res.status(400).json({ ok: false, error: "'a' debe ser un número finito" });
   }
-  if (!isUnary && !Number.isFinite(b as number)) {
-    return res.status(400).json({ ok: false, error: "'b' debe ser número" });
+  if (!Number.isFinite(b)) {
+    return res.status(400).json({ ok: false, error: "'b' debe ser un número finito" });
   }
+
+  (req as any).calc = { op, a, b };
   next();
 }

@@ -9,13 +9,13 @@ const MONGO_URI = process.env.MONGODB_URI;
 
 (async () => {
   try {
-    await connectMongo(MONGO_URI);
+    console.log("[bootstrap] Levantando API…");
+    await connectMongo(MONGO_URI);                // 👈 Asegura que se ejecuta
     app.listen(PORT, () => {
-      // eslint-disable-next-line no-console
-      console.log(`[calculator-api-ts] http://localhost:${PORT}`);
+      console.log(`[api] http://localhost:${PORT}`);
     });
   } catch (err: any) {
-    console.error("❌ Error al iniciar:", err?.message || err);
+    console.error("[bootstrap] No se pudo iniciar:", err?.message || err);
     process.exit(1);
   }
 })();
